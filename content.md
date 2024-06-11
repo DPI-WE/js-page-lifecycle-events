@@ -2,7 +2,9 @@
 In this lesson, we'll explore how to manage JavaScript page lifecycle events within a Ruby on Rails application. These lifecycle events are crucial for controlling when and how your JavaScript interacts with your web page, especially in modern Rails apps that often use tools like [Turbo Drive](https://turbo.hotwired.dev/) and [Stimulus](https://stimulus.hotwired.dev/) to enhance performance and user experience.
 
 ## Introduction to JavaScript Page Lifecycle Events
-JavaScript page lifecycle events help you manage your web page's behavior during different stages of loading and user interaction. Understanding these events allows you to execute JavaScript code at the right moments, making your app more dynamic and responsive.
+JavaScript page lifecycle events help you manage your web page's behavior during different stages of loading and user interaction. Understanding these events allows you to execute JavaScript code at the right moments, making your app more dynamic and responsive. If you're writing javascript (or using a library) that acts upon one of your HTML elements: you need to wait until the element that you want to call the method on has been loaded before it will work.
+
+<!-- TODO: provide practical use cases for using these event listeners -->
 
 ### Full Page Loads
 When a web page fully loads in a browser, several key events occur. Here are the most important ones:
@@ -10,19 +12,23 @@ When a web page fully loads in a browser, several key events occur. Here are the
 #### DOMContentLoaded
 This event fires when the initial HTML document is fully loaded and parsed, without waiting for stylesheets, images, or other external resources. It’s the perfect time to initialize your application logic.
 
-```javascript
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM fully loaded and parsed');
-});
+```html
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+  });
+</script>
 ```
 
 #### load
 This event fires when the entire page, including all dependent resources like images and stylesheets, has finished loading.
 
-```javascript
-window.addEventListener('load', function() {
-  console.log('Page fully loaded');
-});
+```html
+<script>
+  window.addEventListener('load', function() {
+    console.log('Page fully loaded');
+  });
+</script>
 ```
 
 ## Using Turbo Drive in Rails
@@ -33,49 +39,71 @@ In modern Rails applications, Turbo Drive (part of [Hotwire](https://hotwired.de
 #### turbo:load
 Similar to `DOMContentLoaded`, but it triggers every time a new page is loaded by Turbo Drive. It’s the best place to run JavaScript that should execute every time a new page is loaded.
 
-```javascript
-document.addEventListener('turbo:load', function() {
-  console.log('Turbo Drive page load');
-});
+```html
+<script>
+  document.addEventListener('turbo:load', function() {
+    console.log('Turbo Drive page load');
+  });
+</script>
 ```
 
 #### turbo:before-cache
 This event fires before Turbo Drive saves the current page to its cache. You can use it to clean up any state that should not be preserved between pages.
 
-```javascript
-document.addEventListener('turbo:before-cache', function() {
-  console.log('Preparing for Turbo cache');
-});
+```html
+<script>
+  document.addEventListener('turbo:before-cache', function() {
+    console.log('Preparing for Turbo cache');
+  });
+</script>
 ```
 
 ## Using Stimulus for Page Lifecycle Management
 [Stimulus](https://stimulus.hotwired.dev/) is a JavaScript framework that works well with [Turbo Drive](https://turbo.hotwired.dev/), providing a structured way to manage JavaScript behavior tied to specific HTML elements. It makes it easy to handle dynamic interactions within your Rails app.
 
-### Example of a Stimulus Controller
-
-<!-- TODO: add gif -->
+### Example Stimulus Controller
 
 #### HTML
 Attach a Stimulus controller to an element using the data-controller attribute.
 
 ```html
 <div data-controller="example">
-  <p data-target="example.text">Hello, Stimulus!</p>
+  <p data-example-target="text">Hello, Stimulus!</p>
 </div>
 ```
 
 #### JavaScript
 Define the behavior in a Stimulus controller file.
 
-```javascript
-// example_controller.js
-import { Controller } from 'stimulus';
+```bash
+rails generate stimulus example
+```
 
+This command generates a new JavaScript file `example_controller.js` in the `app/javascript/controllers` directory and automatically registers it in `index.js`.
+
+```markdown
+app/
+└── javascript/
+    └── controllers/
+        ├── example_controller.js
+        ├── index.js
+```
+
+```javascript
+import { Controller } from "@hotwired/stimulus"
+
+// Connects to data-controller="example"
 export default class extends Controller {
   static targets = [ "text" ];
 
   connect() {
     console.log('Stimulus controller connected');
+    console.log('Waiting 2 seconds')
+    setTimeout(() => this.setText(), 2000);
+  }
+
+  setText() {
+    console.log('Setting text');
     this.textTarget.textContent = 'Stimulus is connected!';
   }
 
@@ -83,12 +111,17 @@ export default class extends Controller {
     console.log('Stimulus controller disconnected');
   }
 }
+
 ```
+
+![](assets/stimulus-example-1.gif)
 
 In this example, the connect method runs when the element is added to the DOM, and the disconnect method runs when it’s removed.
 
-## Using Stimulus for Dynamic Interactions
+## Using Stimulus to Filter a List
 To illustrate how Stimulus can be used, let's walk through an example where we filter a list of items based on user input.
+
+![](assets/stimulus-example-2.gif)
 
 ### Step 1: Create the Stimulus Controller
 Rails provides a convenient generator for creating Stimulus controllers. To generate a new filter controller, run the following command in your terminal:
@@ -99,24 +132,13 @@ rails generate stimulus filter
 
 This command generates a new JavaScript file `filter_controller.js` in the `app/javascript/controllers` directory and automatically registers it in `index.js`.
 
-#### Generated File Structure:
-
-```markdown
-app/
-└── javascript/
-    └── controllers/
-        ├── filter_controller.js
-        ├── index.js
-        └── another_controller.js
-```
-
 ### Step 2: Set Up HTML with Stimulus Attributes
 In your view file (e.g., `app/views/misc/home.html.erb`), add the following HTML. This HTML uses Stimulus attributes to bind elements to the controller:
 
 ```html
 <div data-controller="filter">
   <input type="text" data-action="input->filter#applyFilters" placeholder="Search items">
-  <ul data-target="filter.list">
+  <ul data-filter-target="list">
     <li>Item 1</li>
     <li>Item 2</li>
     <li>Item 3</li>
@@ -128,23 +150,26 @@ In your view file (e.g., `app/views/misc/home.html.erb`), add the following HTML
 
 - `data-controller="filter"`: Attaches the filter Stimulus controller to the `div`.
 - `data-action="input->filter#applyFilters"`: Binds the input event on the text field to the applyFilters method in the filter controller.
-- `data-target="filter.list"`: Marks the `ul` element as a target that the filter controller can reference directly.
+- `data-filter-target="list"`: Marks the `ul` element as a target that the filter controller can reference directly.
 
 ### Step 3: Implement the Controller Logic
 Edit the generated `filter_controller.js` file to add the behavior for filtering the list:
 
 ```javascript
 // app/javascript/controllers/filter_controller.js
-import { Controller } from 'stimulus';
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [ "list" ];
 
   applyFilters(event) {
+    console.log("applying filter");
+    console.log(event);
     const query = event.target.value.toLowerCase();
     this.listTarget.querySelectorAll('li').forEach(item => {
       item.style.display = item.textContent.toLowerCase().includes(query) ? '' : 'none';
     });
+    console.log("done");
   }
 }
 ```
