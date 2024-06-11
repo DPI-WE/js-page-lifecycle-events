@@ -1,4 +1,4 @@
-# Managing JavaScript Page Lifecycle Events
+# Managing JavaScript Page Lifecycle Events 🔂
 In this lesson, we'll explore how to manage JavaScript page lifecycle events within a Ruby on Rails application. These lifecycle events are crucial for controlling when and how your JavaScript interacts with your web page, especially in modern Rails apps that often use tools like [Turbo Drive](https://turbo.hotwired.dev/) and [Stimulus](https://stimulus.hotwired.dev/) to enhance performance and user experience.
 
 ## Introduction to JavaScript Page Lifecycle Events
