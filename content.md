@@ -4,7 +4,10 @@ In this lesson, we'll explore how to manage JavaScript page lifecycle events wit
 ## Introduction to JavaScript Page Lifecycle Events
 JavaScript page lifecycle events help you manage your web page's behavior during different stages of loading and user interaction. Understanding these events allows you to execute JavaScript code at the right moments, making your app more dynamic and responsive. If you're writing javascript (or using a library) that acts upon one of your HTML elements: you need to wait until the element that you want to call the method on has been loaded before it will work.
 
-<!-- TODO: provide practical use cases for using these event listeners -->
+## Practical Use Cases for Lifecycle Events
+- **Initialization**: Setting up event listeners or initializing components when the DOM is ready.
+- **Performance Optimization**: Delaying the execution of heavy scripts until the full page load to avoid blocking initial render.
+- **Data Fetching**: Starting data fetching processes only after certain assets are loaded.
 
 ### Full Page Loads
 When a web page fully loads in a browser, several key events occur. Here are the most important ones:
