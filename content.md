@@ -64,6 +64,8 @@ In traditional web development, you might scatter `script` tags throughout your 
 ### Example Stimulus Controller
 Let’s start by creating a simple Stimulus controller that changes text content after a delay.
 
+![](assets/stimulus-example-1.gif)
+
 #### HTML
 Attach a Stimulus controller to an element using the data-controller attribute.
 
@@ -130,6 +132,8 @@ Stimulus automatically binds JavaScript controllers to elements when they are ad
 ### Using Stimulus to Filter a List
 Stimulus simplifies handling dynamic interactions like filtering a list of items based on user input. Let's build an example where we filter items in a list as the user types.
 
+![](assets/stimulus-example-2.gif)
+
 #### Step 1: Create the Stimulus Controller
 Generate a new filter controller:
 
@@ -181,8 +185,10 @@ Explanation:
 - `static targets = [ "list" ];`: Defines list as a target, making it easily accessible in the controller.
 - `applyFilters(event)`: This method is triggered by the input event on the text field. It filters the list items based on the input value by showing or hiding items.
 
-### Adding More Interactivity
+### Adding a 'Loading...' Message
 To further illustrate Stimulus's capabilities, let's add a loading spinner that appears while filtering the list.
+
+![](assets/stimulus-example-3.gif)
 
 #### HTML
 Add a spinner element and modify the existing HTML:
