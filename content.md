@@ -3,7 +3,6 @@ In our previous lesson, we explored JavaScript fundamentals and how it interacts
 
 ## Bridging the Gap: From JavaScript Basics to Stimulus
 
-### The Evolution of JavaScript
 JavaScript has evolved from a simple scripting language to a powerful tool for building complex applications. Understanding Object-Oriented JavaScript principles is crucial for writing maintainable and scalable code. With Object-Oriented JavaScript, we can structure our code into reusable and logical modules, making it easier to manage and extend.
 
 ### Introducing Object-Oriented JavaScript
@@ -27,7 +26,7 @@ const dog = new Animal('Dog');
 dog.speak(); // Dog makes a noise.
 ```
 
-In this example, we define a class Animal with a constructor to initialize the name property and a speak method. We then create an instance of the Animal class and call its speak method.
+In this example, we define a class `Animal` with a constructor to initialize the name property and a speak method. We then create an instance of the `Animal` class and call its `speak()` method.
 
 ### ES6 Imports and Exports
 Modern JavaScript (ES6) allows us to split our code into modules. We can export functions, objects, or classes from one file and import them into another, promoting code reusability and maintainability.
