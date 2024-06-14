@@ -1,4 +1,4 @@
-# Object Oriented JavaScript with Stimulus
+# Object Oriented JavaScript with Stimulus 💡 
 In our previous lesson, we explored JavaScript fundamentals and how it interacts with the DOM to create dynamic user interfaces. Now, we're ready to take it a step further by introducing Object-Oriented JavaScript and [Stimulus](https://stimulus.hotwired.dev/), a JavaScript framework that seamlessly integrates with your Rails app.
 
 ## Bridging the Gap: From JavaScript Basics to Stimulus
