@@ -66,7 +66,7 @@ Let’s start by creating a simple Stimulus controller that changes text content
 ![](assets/stimulus-example-1.gif)
 
 #### HTML
-Attach a Stimulus controller to an element using the data-controller attribute.
+Attach a Stimulus controller to an element using the `data-controller` attribute.
 
 ```html
 <div data-controller="example">
@@ -81,7 +81,7 @@ Generate a Stimulus controller using the Rails generator:
 rails generate stimulus example
 ```
 
-This command generates a new JavaScript file example_controller.js in the app/javascript/controllers directory and automatically registers it in index.js.
+This command generates a new JavaScript file `example_controller.js` in the `app/javascript/controllers` directory and automatically registers it in index.js.
 
 ```javascript
 // app/javascript/controllers/example_controller.js
@@ -108,9 +108,8 @@ export default class extends Controller {
 }
 ```
 
-In this example, the connect method runs when the element is added to the DOM, and the disconnect method runs when it’s removed. The setText method updates the text content after a delay.
+In this example, the connect method runs when the element is added to the DOM, and the disconnect method runs when it’s removed. The `setText` method updates the text content after a delay.
 
-<aside>
 Stimulus automatically binds JavaScript controllers to elements when they are added to the DOM. This eliminates the need to manually manage lifecycle events like `DOMContentLoaded` or `jQuery(document).ready`. You don't have to worry about when the JavaScript should be executed relative to the page load, which reduces the potential for bugs and simplifies the code.
 
 ```html
@@ -126,7 +125,6 @@ Stimulus automatically binds JavaScript controllers to elements when they are ad
 <!-- With Stimulus -->
 <div data-controller="example"></div>
 ```
-</aside>
 
 ### Using Stimulus to Filter a List
 Stimulus simplifies handling dynamic interactions like filtering a list of items based on user input. Let's build an example where we filter items in a list as the user types.
